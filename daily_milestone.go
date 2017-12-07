@@ -176,7 +176,7 @@ func createMilestoneData(advance int, timeInterval string) []simpleMilestone {
 		}
 	case timeInterval == "weekly":
 		lastday := today
-		for lastday.Weekday() != time.Monday {
+		for lastday.Weekday() != time.Sunday {
 			lastday = lastday.AddDate(0, 0, -1)
 		}
 
