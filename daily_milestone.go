@@ -87,8 +87,8 @@ func lastDayMonth(year int, month int, timezone *time.Location) time.Time {
 
 // last day of week
 func lastDayWeek(lastDay time.Time) time.Time {
-	if lastDay.Weekday() != time.Monday {
-		for lastDay.Weekday() != time.Monday {
+	if lastDay.Weekday() != time.Sunday {
+		for lastDay.Weekday() != time.Sunday {
 			lastDay = lastDay.AddDate(0, 0, -1)
 		}
 		return lastDay
@@ -252,8 +252,8 @@ func main() {
 	var token, baseURL, namespace, project, timeInterval string
 	var advance int
 	// Command Line Parsing Starts
-	flag.StringVar(&token, "Token", "jGWPwqQUuf37b", "Gitlab api key/token.")
-	flag.StringVar(&timeInterval, "TimeInterval", "daily", "Set milestone to daily, weekly or monthly.")
+	flag.StringVar(&token, "Token", "jGWPwqQUuf37b", "Gitlab api key/token")
+	flag.StringVar(&timeInterval, "TimeInterval", "daily", "Set milestone to daily, weekly or monthly")
 	flag.StringVar(&baseURL, "BaseURL", "dev.example.com", "Gitlab api base url")
 	flag.StringVar(&namespace, "Namespace", "someNamespace", "Namespace to use in Gitlab")
 	flag.StringVar(&project, "ProjectName", "someProject", "Project to use in Gitlab")
