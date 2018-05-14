@@ -93,7 +93,10 @@ func MockGitlabAPIPostRequest(URL string) {
 func MockGitlabAPIPutRequest(URL string) {
 	json := MockGitlabAPI()
 	httpmock.Activate()
-	httpmock.RegisterResponder("PUT", URL,
+	var strURL []string
+	strURL = []string{URL, "/projects/", "1", "/milestones", "1"}
+	newURL := strings.Join(strURL, "")
+	httpmock.RegisterResponder("PUT", newURL,
 		func(req *http.Request) (*http.Response, error) {
 			resp, err := httpmock.NewJsonResponse(200, json)
 			if err != nil {
