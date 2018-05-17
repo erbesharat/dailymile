@@ -117,3 +117,26 @@ func TestGetInactiveMilestones(t *testing.T) {
 		}
 	}
 }
+
+func TestReactivateClosedMilestones(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+	mockURL := "https://" + "api.github.com"
+	MockGitlabAPIGetRequest(mockURL)
+	inactiveMilestonesAPI, err := getInactiveMilestones(mockURL, "token", "1")
+	if err != nil {
+		t.Error(err)
+	}
+	inactiveMilestones := createGitlabMilestoneMap(inactiveMilestonesAPI)
+	MockGitlabAPIGetRequest(mockURL)
+	MockGitlabAPIPutRequest(mockURL)
+	err = ReactivateClosedMilestones(inactiveMilestones, mockURL, "token", "1", logger)
+	if err != nil {
+		t.Error(err)
+	}
+	for _, v := range inactiveMilestones {
+		if v.State != "active" {
+			t.Errorf("Expected %s, got %s", "active", v.State)
+		}
+	}
+}
