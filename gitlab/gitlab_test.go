@@ -113,7 +113,7 @@ func TestGetInactiveMilestones(t *testing.T) {
 	inactiveMilestones := createGitlabMilestoneMap(inactiveMilestonesAPI)
 	for _, v := range inactiveMilestones {
 		if v.State != "closed" {
-			t.Errorf("Expected %s, got %s", "active", v.State)
+			t.Errorf("Expected %s, got %s", "closed", v.State)
 		}
 	}
 }

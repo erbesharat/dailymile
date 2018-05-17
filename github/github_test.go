@@ -70,8 +70,8 @@ func TestGetActiveMilestones(t *testing.T) {
 	}
 	activeMilestones := CreateGithubMilestoneMap(activeMilestonesAPI)
 	for _, v := range activeMilestones {
-		if v.State != "active" {
-			t.Errorf("Expected %s, got %s", "active", v.State)
+		if v.State != "open" {
+			t.Errorf("Expected %s, got %s", "open", v.State)
 		}
 	}
 }
@@ -88,7 +88,7 @@ func TestGetInactiveMilestones(t *testing.T) {
 	inactiveMilestones := CreateGithubMilestoneMap(inactiveMilestonesAPI)
 	for _, v := range inactiveMilestones {
 		if v.State != "closed" {
-			t.Errorf("Expected %s, got %s", "active", v.State)
+			t.Errorf("Expected %s, got %s", "closed", v.State)
 		}
 	}
 }
