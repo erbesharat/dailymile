@@ -106,3 +106,13 @@ func MockGitlabAPIPutRequest(URL string) {
 		},
 	)
 }
+
+// MockPaginate creates a mock responder to return a byte slice
+func MockPaginate(url string, data []byte) {
+	httpmock.RegisterResponder("GET", url,
+		func(req *http.Request) (*http.Response, error) {
+			resp := httpmock.NewBytesResponse(200, data)
+			return resp, nil
+		},
+	)
+}
