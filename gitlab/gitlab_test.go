@@ -121,7 +121,7 @@ func TestGetInactiveMilestones(t *testing.T) {
 func TestReactivateClosedMilestones(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	mockURL := "https://" + "api.github.com"
+	mockURL := "https://" + "gitlab.com" + "/api/v4"
 	MockGitlabAPIGetRequest(mockURL)
 	inactiveMilestonesAPI, err := getInactiveMilestones(mockURL, "token", "1")
 	if err != nil {
