@@ -25,7 +25,7 @@ import (
 // MockGithubAPI populates a []githubAPI with mock API data
 func MockGithubAPI() []githubAPI {
 	currentTime := time.Now()
-	gitlabAPImock := []githubAPI{}
+	githubAPImock := []githubAPI{}
 	mock := githubAPI{}
 	for i := 0; i < 10; i++ {
 		mock.ID = i
@@ -43,7 +43,7 @@ func MockGithubAPI() []githubAPI {
 		mock.Number = i
 	}
 
-	return gitlabAPImock
+	return githubAPImock
 }
 
 // MockGithubAPIGetRequest creates a mock responder for GET requests and sends back mock JSON data
