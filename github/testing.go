@@ -42,6 +42,7 @@ func MockGithubAPI() []githubAPI {
 		mock.DueDate = "test" + strconv.Itoa(i)
 		mock.Number = i
 	}
+	githubAPImock = append(githubAPImock, mock)
 
 	return githubAPImock
 }
@@ -67,7 +68,6 @@ func MockGithubAPIGetRequest(URL string) {
 // MockGithubAPIPostRequest creates a mock responder for POST requests and sends back mock JSON data
 func MockGithubAPIPostRequest(URL string) {
 	json := MockGithubAPI()
-	httpmock.Activate()
 	var strURL []string
 	strURL = []string{URL, "1", "/milestones"}
 	newURL := strings.Join(strURL, "")
@@ -85,7 +85,6 @@ func MockGithubAPIPostRequest(URL string) {
 // MockGithubAPIPatchRequest creates a mock responder for PUT requests and sends back mock JSON data
 func MockGithubAPIPatchRequest(URL string) {
 	json := MockGithubAPI()
-	httpmock.Activate()
 	var strURL []string
 	strURL = []string{URL, "1", "/milestones", "1"}
 	newURL := strings.Join(strURL, "")
