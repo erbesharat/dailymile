@@ -56,8 +56,8 @@ func TestGitlabCreateAndDisplayNewMilestones(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 	mockURL := "https://" + "gitlab.com" + "/api/v4"
-	MockGitlabAPIGetRequest(mockURL)
-	MockGitlabAPIPostRequest(mockURL)
+	MockGitlabAPIGetRequest(mockURL, "active")
+	MockGitlabAPIPostRequest(mockURL, "active")
 	err := CreateAndDisplayNewMilestones(mockURL, "213123", "1", milestoneData, logger)
 	if err != nil {
 		t.Error(err)
@@ -88,7 +88,7 @@ func TestGetActiveMilestones(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 	mockURL := "https://" + "gitlab.com" + "/api/v4"
-	MockGitlabAPIGetRequest(mockURL)
+	MockGitlabAPIGetRequest(mockURL, "active")
 	activeMilestonesAPI, err := getActiveMilestones(mockURL, "token", "1")
 	if err != nil {
 		t.Error(err)
@@ -105,7 +105,7 @@ func TestGetInactiveMilestones(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 	mockURL := "https://" + "gitlab.com" + "/api/v4"
-	MockGitlabAPIGetRequest(mockURL)
+	MockGitlabAPIGetRequest(mockURL, "closed")
 	inactiveMilestonesAPI, err := getInactiveMilestones(mockURL, "token", "1")
 	if err != nil {
 		t.Error(err)
@@ -122,14 +122,14 @@ func TestReactivateClosedMilestones(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 	mockURL := "https://" + "gitlab.com" + "/api/v4"
-	MockGitlabAPIGetRequest(mockURL)
+	MockGitlabAPIGetRequest(mockURL, "closed")
 	inactiveMilestonesAPI, err := getInactiveMilestones(mockURL, "token", "1")
 	if err != nil {
 		t.Error(err)
 	}
 	inactiveMilestones := createGitlabMilestoneMap(inactiveMilestonesAPI)
-	MockGitlabAPIGetRequest(mockURL)
-	MockGitlabAPIPutRequest(mockURL)
+	MockGitlabAPIGetRequest(mockURL, "closed")
+	MockGitlabAPIPutRequest(mockURL, "active")
 	err = ReactivateClosedMilestones(inactiveMilestones, mockURL, "token", "1", logger)
 	if err != nil {
 		t.Error(err)

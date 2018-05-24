@@ -23,7 +23,7 @@ import (
 )
 
 // MockGithubAPI populates a []githubAPI with mock API data
-func MockGithubAPI() []githubAPI {
+func MockGithubAPI(state string) []githubAPI {
 	currentTime := time.Now()
 	githubAPImock := []githubAPI{}
 	mock := githubAPI{}
@@ -31,10 +31,10 @@ func MockGithubAPI() []githubAPI {
 		mock.ID = i
 		mock.Title = "test" + strconv.Itoa(i)
 		mock.Description = "test" + strconv.Itoa(i)
-		if i%2 == 0 {
-			mock.State = "closed"
-		} else {
+		if state == "open" {
 			mock.State = "open"
+		} else {
+			mock.State = "closed"				
 		}
 		mock.CreatedAt = &currentTime
 		mock.UpdatedAt = &currentTime
@@ -48,8 +48,8 @@ func MockGithubAPI() []githubAPI {
 }
 
 // MockGithubAPIGetRequest creates a mock responder for GET requests and sends back mock JSON data
-func MockGithubAPIGetRequest(URL string) {
-	json := MockGithubAPI()
+func MockGithubAPIGetRequest(URL string, state string) {
+	json := MockGithubAPI(state)
 	httpmock.Activate()
 	var strURL []string
 	strURL = []string{URL, "1", "/milestones"}
@@ -66,8 +66,8 @@ func MockGithubAPIGetRequest(URL string) {
 }
 
 // MockGithubAPIPostRequest creates a mock responder for POST requests and sends back mock JSON data
-func MockGithubAPIPostRequest(URL string) {
-	json := MockGithubAPI()
+func MockGithubAPIPostRequest(URL string, state string) {
+	json := MockGithubAPI(state)
 	var strURL []string
 	strURL = []string{URL, "1", "/milestones"}
 	newURL := strings.Join(strURL, "")
@@ -83,8 +83,8 @@ func MockGithubAPIPostRequest(URL string) {
 }
 
 // MockGithubAPIPatchRequest creates a mock responder for PUT requests and sends back mock JSON data
-func MockGithubAPIPatchRequest(URL string) {
-	json := MockGithubAPI()
+func MockGithubAPIPatchRequest(URL string, state string) {
+	json := MockGithubAPI(state)
 	var strURL []string
 	strURL = []string{URL, "1", "/milestones", "1"}
 	newURL := strings.Join(strURL, "")

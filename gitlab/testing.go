@@ -23,7 +23,7 @@ import (
 )
 
 // MockGitlabAPI populates a []gitlabAPI with mock API data
-func MockGitlabAPI() []gitlabAPI {
+func MockGitlabAPI(state string) []gitlabAPI {
 	currentTime := time.Now()
 	gitlabAPImock := []gitlabAPI{}
 	mock := gitlabAPI{}
@@ -35,10 +35,10 @@ func MockGitlabAPI() []gitlabAPI {
 		mock.Description = "test" + strconv.Itoa(i)
 		mock.StartDate = "test" + strconv.Itoa(i)
 		mock.DueDate = "test" + strconv.Itoa(i)
-		if i%2 == 0 {
-			mock.State = "closed"
-		} else {
+		if state == "active" {
 			mock.State = "active"
+		} else {
+			mock.State = "closed"				
 		}
 		mock.UpdatedAt = &currentTime
 		mock.CreatedAt = &currentTime
@@ -55,8 +55,8 @@ func MockGitlabAPI() []gitlabAPI {
 }
 
 // MockGitlabAPIGetRequest creates a mock responder for GET requests and sends back mock JSON data
-func MockGitlabAPIGetRequest(URL string) {
-	json := MockGitlabAPI()
+func MockGitlabAPIGetRequest(URL string, state string) {
+	json := MockGitlabAPI(state)
 	var strURL []string
 	strURL = []string{URL, "/projects/", "1", "/milestones"}
 	newURL := strings.Join(strURL, "")
@@ -72,8 +72,8 @@ func MockGitlabAPIGetRequest(URL string) {
 }
 
 // MockGitlabAPIPostRequest creates a mock responder for POST requests and sends back mock JSON data
-func MockGitlabAPIPostRequest(URL string) {
-	json := MockGitlabAPI()
+func MockGitlabAPIPostRequest(URL string, state string) {
+	json := MockGitlabAPI(state)
 	var strURL []string
 	strURL = []string{URL, "/projects/", "1", "/milestones"}
 	newURL := strings.Join(strURL, "")
@@ -89,8 +89,8 @@ func MockGitlabAPIPostRequest(URL string) {
 }
 
 // MockGitlabAPIPutRequest creates a mock responder for PUT requests and sends back mock JSON data
-func MockGitlabAPIPutRequest(URL string) {
-	json := MockGitlabAPI()
+func MockGitlabAPIPutRequest(URL string, state string) {
+	json := MockGitlabAPI(state)
 	var strURL []string
 	strURL = []string{URL, "/projects/", "1", "/milestones", "1"}
 	newURL := strings.Join(strURL, "")
