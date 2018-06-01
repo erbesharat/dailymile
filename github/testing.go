@@ -84,10 +84,10 @@ func MockGithubAPIPostRequest(URL string, state string) {
 }
 
 // MockGithubAPIPatchRequest creates a mock responder for PUT requests and sends back mock JSON data
-func MockGithubAPIPatchRequest(URL string, state string) {
+func MockGithubAPIPatchRequest(URL string, state string, id string) {
 	json := MockGithubAPI(state)
 	var strURL []string
-	strURL = []string{URL, "1", "/milestones", "1"}
+	strURL = []string{URL, "1", "/milestones/", id}
 	newURL := strings.Join(strURL, "")
 	httpmock.RegisterResponder("PATCH", newURL,
 		func(req *http.Request) (*http.Response, error) {

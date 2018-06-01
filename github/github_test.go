@@ -101,15 +101,11 @@ func TestReactivateClosedMilestones(t *testing.T) {
 		t.Error(err)
 	}
 	inactiveMilestones := CreateGithubMilestoneMap(inactiveMilestonesAPI)
-	MockGithubAPIGetRequest(mockURL, "closed")
-	MockGithubAPIPatchRequest(mockURL, "open")
+	for _, v := range inactiveMilestones {
+		MockGithubAPIPatchRequest(mockURL, "open", v.ID)
+	}
 	err = ReactivateClosedMilestones(inactiveMilestones, mockURL, "token", "1")
 	if err != nil {
 		t.Error(err)
-	}
-	for _, v := range inactiveMilestones {
-		if v.State != "open" {
-			t.Errorf("Expected %s, got %s", "open", v.State)
-		}
 	}
 }

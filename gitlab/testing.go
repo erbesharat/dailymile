@@ -48,7 +48,7 @@ func MockGitlabAPI(state string) []gitlabAPI {
 		mock.NameSpace.Path = "test" + strconv.Itoa(i)
 		mock.NameSpace.Kind = "test" + strconv.Itoa(i)
 		mock.NameSpace.FullPath = "test" + strconv.Itoa(i)
-		
+
 		gitlabAPImock = append(gitlabAPImock, mock)
 	}
 
@@ -90,10 +90,10 @@ func MockGitlabAPIPostRequest(URL string, state string) {
 }
 
 // MockGitlabAPIPutRequest creates a mock responder for PUT requests and sends back mock JSON data
-func MockGitlabAPIPutRequest(URL string, state string) {
+func MockGitlabAPIPutRequest(URL string, state string, id string) {
 	json := MockGitlabAPI(state)
 	var strURL []string
-	strURL = []string{URL, "/projects/", "1", "/milestones", "1"}
+	strURL = []string{URL, "/projects/", "1", "/milestones/", id}
 	newURL := strings.Join(strURL, "")
 	httpmock.RegisterResponder("PUT", newURL,
 		func(req *http.Request) (*http.Response, error) {
