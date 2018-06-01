@@ -41,8 +41,9 @@ func MockGithubAPI(state string) []githubAPI {
 		mock.StartDate = "test" + strconv.Itoa(i)
 		mock.DueDate = "test" + strconv.Itoa(i)
 		mock.Number = i
+
+		githubAPImock = append(githubAPImock, mock)
 	}
-	githubAPImock = append(githubAPImock, mock)
 
 	return githubAPImock
 }

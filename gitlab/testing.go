@@ -48,8 +48,9 @@ func MockGitlabAPI(state string) []gitlabAPI {
 		mock.NameSpace.Path = "test" + strconv.Itoa(i)
 		mock.NameSpace.Kind = "test" + strconv.Itoa(i)
 		mock.NameSpace.FullPath = "test" + strconv.Itoa(i)
+		
+		gitlabAPImock = append(gitlabAPImock, mock)
 	}
-	gitlabAPImock = append(gitlabAPImock, mock)
 
 	return gitlabAPImock
 }
