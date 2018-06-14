@@ -45,13 +45,13 @@ func TestGithubCreateAndDisplayNewMilestones(t *testing.T) {
 func TestPaginate(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	MockPaginate("https://example.com", []byte("testing"))
+	MockPaginate("https://example.com")
 	apiData, err := paginate("https://example.com", "token")
 	if err != nil {
-		t.Errorf("Expected %s, got error %s: ", "testing", err)
+		t.Error(err)
 	}
-	if string(apiData[1]) != "testing" {
-		t.Errorf("Expected %s, got %s", "testing", string(apiData[1]))
+	if len(apiData) != 3 {
+		t.Errorf("Expected %d, got %d", 3, len(apiData))
 	}
 }
 
