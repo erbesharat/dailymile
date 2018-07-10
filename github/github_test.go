@@ -15,11 +15,12 @@ limitations under the License.
 package github
 
 import (
-	"github.com/okkur/gomiler/utils"
-	httpmock "gopkg.in/jarcoal/httpmock.v1"
 	"log"
 	"os"
 	"testing"
+
+	"github.com/okkur/gomiler/utils"
+	httpmock "gopkg.in/jarcoal/httpmock.v1"
 )
 
 var (
@@ -45,13 +46,13 @@ func TestGithubCreateAndDisplayNewMilestones(t *testing.T) {
 func TestPaginate(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	MockPaginate("https://example.com")
+	pagination := MockPaginate("https://example.com")
 	apiData, err := paginate("https://example.com", "token")
 	if err != nil {
 		t.Error(err)
 	}
-	if len(apiData) != 3 {
-		t.Errorf("Expected %d, got %d", 3, len(apiData))
+	if len(apiData) != pagination {
+		t.Errorf("Expected %d, got %d", pagination, len(apiData))
 	}
 }
 

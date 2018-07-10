@@ -15,11 +15,12 @@ limitations under the License.
 package github
 
 import (
-	httpmock "gopkg.in/jarcoal/httpmock.v1"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	httpmock "gopkg.in/jarcoal/httpmock.v1"
 )
 
 // MockGithubAPI populates a []githubAPI with mock API data
@@ -101,24 +102,36 @@ func MockGithubAPIPatchRequest(URL string, state string, id string) {
 }
 
 // MockPaginate creates a mock responder to return a byte slice
-func MockPaginate(url string) {
-	links := []string{
-		"Link: <http://example.com/page=1>; rel=\"next\", <http://example.com/page=3>; rel=\"last\"",
-		"Link: <http://example.com/page=3>; rel=\"next\", <http://example.com/page=3>; rel=\"last\"",
-		"Link: <http://example.com/page=2>; rel=\"first\", <http://example.com/page=3>; rel=\"last\"",
+func MockPaginate(url string) int {
+	linksHeader := []string{
+		"<http://example.com/page=1>; rel=\"next\", <http://example.com/page=3>; rel=\"last\"",
+		"<http://example.com/page=3>; rel=\"next\", <http://example.com/page=3>; rel=\"last\"",
+		"<http://example.com/page=2>; rel=\"first\", <http://example.com/page=3>; rel=\"last\"",
 	}
-	for i := 0; i < 3; i++ {
-		httpmock.RegisterResponder("GET", url,
+
+	links := []string{
+		"http://example.com/page=1",
+		"http://example.com/page=3",
+		"http://example.com/page=2",
+	}
+
+	for i, link := range linksHeader[0:] {
+		httpmock.RegisterResponder("GET", links[i],
 			func(req *http.Request) (*http.Response, error) {
-				resp := httpmock.NewStringResponse(200, links[i])
+				resp := httpmock.NewStringResponse(200, "testing")
+				resp.Header.Set("Link", link)
 				return resp, nil
 			},
 		)
 	}
+
 	httpmock.RegisterResponder("GET", url,
 		func(req *http.Request) (*http.Response, error) {
-			resp := httpmock.NewBytesResponse(200, []byte("testing"))
+			resp := httpmock.NewStringResponse(200, "testing")
+			resp.Header.Set("Link", linksHeader[0])
 			return resp, nil
 		},
 	)
+
+	return len(linksHeader)
 }
